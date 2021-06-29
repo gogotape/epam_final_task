@@ -329,7 +329,7 @@
   },
   {
     "rank": 42,
-    "Name": "Xi-an Shaanxi",
+    "Name": "Shaanxi",
     "Country": "China",
     "Population": 8274651,
     "Prev": 8000965,
@@ -465,7 +465,7 @@
   },
   {
     "rank": 59,
-    "Name": "Haerbin",
+    "Name": "Harbin",
     "Country": "China",
     "Population": 6526439,
     "Prev": 6387195,
@@ -545,7 +545,7 @@
   },
   {
     "rank": 69,
-    "Name": "Ji-nan Shandong",
+    "Name": "Shandong",
     "Country": "China",
     "Population": 5513597,
     "Prev": 5360185,
@@ -681,7 +681,7 @@
   },
   {
     "rank": 86,
-    "Name": "Jiddah",
+    "Name": "Jeddah",
     "Country": "Saudi Arabia",
     "Population": 4696535,
     "Prev": 4610176,

@@ -15,6 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from weather.views import get_weather, index
+from weather.views import *
 
-urlpatterns = [path("", index), path("<str:city>/<str:unit>", get_weather)]
+urlpatterns = [
+    path("", index),
+    path("weather/<str:city>/<str:unit>", get_weather),
+    path("authorize/<str:username>/<str:password>", authorize_user),
+    path("logout", logout_user),
+]

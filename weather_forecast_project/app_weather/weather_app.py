@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 import requests
@@ -6,13 +7,11 @@ from weather.models import *
 
 class WeatherClient:
     # TODO: implement the ability to authenticate
-    API_KEY = "148a452f28f9868fec8d663a8be9d91f"
-
+    API_KEY = ""
     BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
     ACCORDANCE = {"K": "standard", "C": "metric", "F": "imperial"}
 
     def get_city_weather(self, city, units):
-
         # checking of units, trying to find an accordance of measuring system
         try:
             measuring_system = self.ACCORDANCE[units]
@@ -20,7 +19,9 @@ class WeatherClient:
             raise ValueError("Please, type K, C, or F for units")
 
         # checking availability of data in DB
-        if Forecast.objects.filter(city=city, units=units).exists():
+        if Forecast.objects.filter(
+            city=city, units=units, date=datetime.now().date()
+        ).exists():
             forecast_obj = Forecast.objects.filter(city=city, units=units)[0]
             data = {
                 "city": forecast_obj.city,
@@ -49,3 +50,17 @@ class WeatherClient:
             )
 
         return data
+
+
+class UserClient:
+    def authorize_user(self, username, password):
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            # the password verified for the user
+            if user.is_active:
+                return "User is valid, active and authenticated"
+            else:
+                return "The password is valid, but the account has been disabled!"
+        else:
+            # the authentication system was unable to verify the username and password
+            return "The username and password were incorrect"

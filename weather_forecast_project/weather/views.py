@@ -1,19 +1,29 @@
-from app_weather.main import *
+from app_weather.weather_app import *
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse(
-        "<h1> Welcome to REST API Weather<h1><p>Type your city and units into url string <p>"
-        "<h2>"
-        "Format: http://127.0.0.1:8000/latin_name_of_city/units (possible units: F, C, K)<h2>"
-        "Example: http://127.0.0.1:8000/moscow/F"
-    )
+    return render(request, "templates/base.html")
 
 
+@login_required
 def get_weather(request, city, unit):
     # TODO: processing of exceptions
     client = WeatherClient()
     data = client.get_city_weather(city=city, units=unit)
     return JsonResponse(data=data)
+
+
+def authorize_user(request, username, password):
+    user_client = UserClient()
+    answer = user_client.authorize_user(username, password)
+    user = authenticate(username=username, password=password)
+    login(request=request, user=user)
+    return HttpResponse(answer)
+
+
+def logout_user(request):
+    logout(request)
+    return HttpResponse("Successfully logout!")

@@ -1,11 +1,12 @@
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.db import models
 
+
 # Create your models here.
-
-
 class Forecast(models.Model):
     city = models.CharField(max_length=125)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateField(auto_now=True)
     temperature = models.FloatField()
     units = models.CharField(max_length=30, default="K")
 
