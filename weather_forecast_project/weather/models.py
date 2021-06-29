@@ -16,10 +16,10 @@ class Forecast(models.Model):
             str(self.date),
         )
 
-    def convert_temperature(self, units="K"):
+    def convert_temperature(self, units: str = "K") -> float:
         if units == "C":
-            return self.temperature - 273
+            return float(self.temperature - 273)
         elif units == "F":
-            return 1.8 * (self.temperature - 273) + 32
+            return float(1.8 * (self.temperature - 273) + 32)
         else:
-            return self.temperature
+            return float(self.temperature)

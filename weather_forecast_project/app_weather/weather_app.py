@@ -1,5 +1,7 @@
 import json
+import time
 from datetime import datetime
+from typing import Dict
 
 import requests
 from weather.models import *
@@ -8,10 +10,11 @@ from weather.models import *
 class WeatherClient:
     # TODO: implement the ability to authenticate
     API_KEY = ""
+    # API_KEY = input("Type your API key from Open Weather Map: ")
     BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
     ACCORDANCE = {"K": "standard", "C": "metric", "F": "imperial"}
 
-    def get_city_weather(self, city, units):
+    def get_city_weather(self, city: str, units: str) -> Dict:
         # checking of units, trying to find an accordance of measuring system
         try:
             measuring_system = self.ACCORDANCE[units]
@@ -53,7 +56,8 @@ class WeatherClient:
 
 
 class UserClient:
-    def authorize_user(self, username, password):
+    @staticmethod
+    def authorize_user(username: str, password: str) -> str:
         user = authenticate(username=username, password=password)
         if user is not None:
             # the password verified for the user

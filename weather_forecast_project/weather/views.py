@@ -9,14 +9,13 @@ def index(request):
 
 
 @login_required
-def get_weather(request, city, unit):
-    # TODO: processing of exceptions
+def get_weather(request, city: str, unit: str):
     client = WeatherClient()
     data = client.get_city_weather(city=city, units=unit)
     return JsonResponse(data=data)
 
 
-def authorize_user(request, username, password):
+def authorize_user(request, username: str, password: str) -> HttpResponse:
     user_client = UserClient()
     answer = user_client.authorize_user(username, password)
     user = authenticate(username=username, password=password)
@@ -24,6 +23,6 @@ def authorize_user(request, username, password):
     return HttpResponse(answer)
 
 
-def logout_user(request):
+def logout_user(request) -> HttpResponse:
     logout(request)
     return HttpResponse("Successfully logout!")
