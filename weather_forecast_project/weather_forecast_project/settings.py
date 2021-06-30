@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "weather.apps.WeatherConfig",
     "demon_app",
     "django_celery_beat",
-    "django_celery_results",
+    "django_celery_results"
 ]
 
 MIDDLEWARE = [

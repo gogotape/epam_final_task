@@ -15,6 +15,12 @@ def get_weather(request, city: str, unit: str):
     return JsonResponse(data=data)
 
 
+def save_report(request):
+    csv_client = SaverInfoClient()
+    csv_client.save_data()
+    return HttpResponse("Data successfully saved at /output")
+
+
 def authorize_user(request, username: str, password: str) -> HttpResponse:
     user_client = UserClient()
     answer = user_client.authorize_user(username, password)

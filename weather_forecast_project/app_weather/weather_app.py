@@ -10,7 +10,6 @@ from weather.models import *
 class WeatherClient:
     # TODO: implement the ability to authenticate
     API_KEY = ""
-    # API_KEY = input("Type your API key from Open Weather Map: ")
     BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
     ACCORDANCE = {"K": "standard", "C": "metric", "F": "imperial"}
 
@@ -49,7 +48,7 @@ class WeatherClient:
             )
         except KeyError:
             raise KeyError(
-                "There is no data about this city. Please, check format of input data"
+                f"There is no data about this city: {city}. Please, check format of input data",
             )
 
         return data
@@ -68,3 +67,12 @@ class UserClient:
         else:
             # the authentication system was unable to verify the username and password
             return "The username and password were incorrect"
+
+
+class SaverInfoClient:
+    @staticmethod
+    def save_data():
+        data_to_save = list(Forecast.objects.all())
+        with open("output/data.csv", "w") as fi:
+            for string in data_to_save:
+                fi.write(str(string)+'\n')

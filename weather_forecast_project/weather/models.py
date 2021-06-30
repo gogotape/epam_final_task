@@ -11,9 +11,11 @@ class Forecast(models.Model):
     units = models.CharField(max_length=30, default="K")
 
     def __str__(self):
-        return "Forecast for {} on {} ".format(
+        return "Forecast for {} on {}. Temperature is {} {}".format(
             self.city,
             str(self.date),
+            str(self.temperature),
+            str(self.units)
         )
 
     def convert_temperature(self, units: str = "K") -> float:
