@@ -11,17 +11,13 @@ class Forecast(models.Model):
     units = models.CharField(max_length=30, default="K")
 
     def __str__(self):
-        return "Forecast for {} on {}. Temperature is {} {}".format(
-            self.city,
-            str(self.date),
-            str(self.temperature),
-            str(self.units)
-        )
+        return ",".join([str(self.city), str(self.date), str(self.temperature), str(self.units)])
 
     def convert_temperature(self, units: str = "K") -> float:
+        """Convert temperature from K to F and C"""
         if units == "C":
-            return float(self.temperature - 273)
+            return round(float(self.temperature - 273))
         elif units == "F":
-            return float(1.8 * (self.temperature - 273) + 32)
+            return round(float(1.8 * (self.temperature - 273) + 32))
         else:
-            return float(self.temperature)
+            return round(float(self.temperature))

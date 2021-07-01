@@ -1,0 +1,14 @@
+Type following commands into your terminal to run the webservice
+
+1. py manage.py makemigrations
+2. py manage.py migrate
+3. py manage.py runserver
+4. docker-compose up
+5. celery -A weather_forecast_project beat
+6. celery -A weather_forecast_project worker —concurrency=1 -P geventge.py runserver
+
+Now go to:
+http://127.0.0.1:8000/
+
+To register new user type:
+User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')

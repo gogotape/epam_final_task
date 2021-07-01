@@ -10,15 +10,17 @@ def index(request):
 
 @login_required
 def get_weather(request, city: str, unit: str):
+    city.capitalize()
     client = WeatherClient()
     data = client.get_city_weather(city=city, units=unit)
     return JsonResponse(data=data)
 
 
-def save_report(request):
+@login_required
+def save_report(request, from_date, to_date):
     csv_client = SaverInfoClient()
-    csv_client.save_data()
-    return HttpResponse("Data successfully saved at /output")
+    answer = csv_client.save_data(from_date, to_date)
+    return HttpResponse(answer)
 
 
 def authorize_user(request, username: str, password: str) -> HttpResponse:

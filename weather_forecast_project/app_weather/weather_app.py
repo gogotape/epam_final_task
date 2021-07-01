@@ -1,8 +1,6 @@
-import json
-import time
 from datetime import datetime
 from typing import Dict
-
+import csv
 import requests
 from weather.models import *
 
@@ -14,6 +12,8 @@ class WeatherClient:
     ACCORDANCE = {"K": "standard", "C": "metric", "F": "imperial"}
 
     def get_city_weather(self, city: str, units: str) -> Dict:
+        """Getting today's city weather
+        Firstly cache is checked, if there is no data for this city and date, then go to website"""
         # checking of units, trying to find an accordance of measuring system
         try:
             measuring_system = self.ACCORDANCE[units]
@@ -22,12 +22,13 @@ class WeatherClient:
 
         # checking availability of data in DB
         if Forecast.objects.filter(
-            city=city, units=units, date=datetime.now().date()
+            city=city, units="K", date=datetime.now().date()
         ).exists():
-            forecast_obj = Forecast.objects.filter(city=city, units=units)[0]
+            forecast_obj = Forecast.objects.filter(city=city, units="K")[0]
+            converted_temperature = forecast_obj.convert_temperature(units=units)
             data = {
                 "city": forecast_obj.city,
-                "temperature": forecast_obj.temperature,
+                "temperature": converted_temperature,
                 "unit": units,
             }
             return data
@@ -57,6 +58,7 @@ class WeatherClient:
 class UserClient:
     @staticmethod
     def authorize_user(username: str, password: str) -> str:
+        """Authorize user by username and password"""
         user = authenticate(username=username, password=password)
         if user is not None:
             # the password verified for the user
@@ -71,8 +73,21 @@ class UserClient:
 
 class SaverInfoClient:
     @staticmethod
-    def save_data():
-        data_to_save = list(Forecast.objects.all())
+    def save_data(from_date, to_date):
+        """Save report to csv for some period"""
+        try:
+            year, month, day = map(int, from_date.split("-"))
+            from_date = datetime(year=year, month=month, day=day)
+            year1, month1, day1 = map(int, to_date.split("-"))
+            to_date = datetime(year=year1, month=month1, day=day1)
+        except ValueError:
+            raise ValueError("Please, check format of dates")
+
+        data_to_save = list(Forecast.objects.filter(date__gte=from_date, date__lte=to_date))
         with open("output/data.csv", "w") as fi:
             for string in data_to_save:
                 fi.write(str(string)+'\n')
+        if not data_to_save:
+            return "There is not data for this period. Check format and values"
+        else:
+            return "Data successfully saved at /output"
