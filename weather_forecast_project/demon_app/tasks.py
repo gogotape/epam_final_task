@@ -6,7 +6,6 @@ import json
 from app_weather.weather_app import WeatherClient
 from celery import shared_task
 
-
 # creating list with top 100 cities
 with open("input/top_100_cities_by_population.json", encoding="utf-8") as fi:
     data = json.load(fi)
@@ -22,4 +21,6 @@ def do_demon_job() -> None:
             weather_client = WeatherClient()
             weather_client.get_city_weather(city, "K")
         except Exception as e:
-            raise NameError("Problem with getting forecast for top 100 cities. Check your API KEY")
+            raise NameError(
+                "Problem with getting forecast for top 100 cities. Check your API KEY"
+            )

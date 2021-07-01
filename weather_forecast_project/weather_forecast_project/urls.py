@@ -22,5 +22,5 @@ urlpatterns = [
     path("weather/<str:city>/<str:unit>", get_weather),
     path("authorize/<str:username>/<str:password>", authorize_user),
     path("logout", logout_user),
-    path("save_report/<str:from_date>/<str:to_date>", save_report)
+    path("save_report/<str:from_date>/<str:to_date>", save_report),
 ]

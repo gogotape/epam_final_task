@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "weather.apps.WeatherConfig",
     "demon_app",
     "django_celery_beat",
-    "django_celery_results"
+    "django_celery_results",
 ]
 
 MIDDLEWARE = [
@@ -128,7 +128,5 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 # custom fields
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend'
-]
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]

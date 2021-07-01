@@ -1,6 +1,7 @@
+import csv
 from datetime import datetime
 from typing import Dict
-import csv
+
 import requests
 from weather.models import *
 
@@ -83,10 +84,12 @@ class SaverInfoClient:
         except ValueError:
             raise ValueError("Please, check format of dates")
 
-        data_to_save = list(Forecast.objects.filter(date__gte=from_date, date__lte=to_date))
+        data_to_save = list(
+            Forecast.objects.filter(date__gte=from_date, date__lte=to_date)
+        )
         with open("output/data.csv", "w") as fi:
             for string in data_to_save:
-                fi.write(str(string)+'\n')
+                fi.write(str(string) + "\n")
         if not data_to_save:
             return "There is not data for this period. Check format and values"
         else:

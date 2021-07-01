@@ -11,7 +11,9 @@ class Forecast(models.Model):
     units = models.CharField(max_length=30, default="K")
 
     def __str__(self):
-        return ",".join([str(self.city), str(self.date), str(self.temperature), str(self.units)])
+        return ",".join(
+            [str(self.city), str(self.date), str(self.temperature), str(self.units)]
+        )
 
     def convert_temperature(self, units: str = "K") -> float:
         """Convert temperature from K to F and C"""
